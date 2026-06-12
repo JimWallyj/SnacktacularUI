@@ -10,10 +10,16 @@ import Firebase
 import FirebaseAuth
 
 struct LoginView: View {
+    enum Field{
+        case email, password
+    }
+    
     @State private var email = ""
     @State private var password = ""
     @State private var showingAlert = false
     @State private var alertMessage = ""
+    @State private var buttonDisabled = true
+    @FocusState private var focusedField: Field?
     
     
     var body: some View {
@@ -28,9 +34,23 @@ struct LoginView: View {
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .submitLabel(.next)
+                    .focused($focusedField, equals: .email)
+                    .onSubmit {
+                        focusedField = .password
+                    }
+                    .onChange(of: email){
+                        enableButtons()
+                    }
                 
                 SecureField("password", text: $password)
                     .submitLabel(.done)
+                    .focused($focusedField, equals: .password)
+                    .onSubmit {
+                        focusedField = nil  //  nil will dismiss the keyboard
+                    }
+                    .onChange(of: password){
+                        enableButtons()
+                    }
             }
             .textFieldStyle(.roundedBorder)
             .overlay{
@@ -58,6 +78,12 @@ struct LoginView: View {
         .alert(alertMessage, isPresented: $showingAlert) {
             Button("OK", role: .cancel){ }
         }
+    }
+    
+    func enableButtons(){
+        let emailIsGood = email.count >= 6 && email.contains("@")
+        let passwordIsGood = password.count > 6
+        buttonDisabled = !(emailIsGood && passwordIsGood)
     }
     
     func register() {
