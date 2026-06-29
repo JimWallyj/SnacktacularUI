@@ -17,6 +17,8 @@
 		2E38A89C2FD7524C00C27FAA /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2E38A89B2FD7524C00C27FAA /* FirebaseStorage */; };
 		2E8C059F2FE63F87005802E7 /* SpotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C059E2FE63F87005802E7 /* SpotViewModel.swift */; };
 		2E8C05A12FEA39D5005802E7 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C05A02FEA39D5005802E7 /* PhotoView.swift */; };
+		2E8C05A32FEF7940005802E7 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C05A22FEF7940005802E7 /* Photo.swift */; };
+		2E8C05A52FEF7AFE005802E7 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C05A42FEF7AFE005802E7 /* PhotoViewModel.swift */; };
 		2EE50F3D2FE4F03800ECA59D /* Spot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE50F3C2FE4F03800ECA59D /* Spot.swift */; };
 		2EE50F3F2FE4F15600ECA59D /* SpotDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE50F3E2FE4F15600ECA59D /* SpotDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +33,8 @@
 		2E38A8862FD7507400C27FAA /* SnacktacularUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnacktacularUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C059E2FE63F87005802E7 /* SpotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotViewModel.swift; sourceTree = "<group>"; };
 		2E8C05A02FEA39D5005802E7 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		2E8C05A22FEF7940005802E7 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		2E8C05A42FEF7AFE005802E7 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		2EE50F3C2FE4F03800ECA59D /* Spot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spot.swift; sourceTree = "<group>"; };
 		2EE50F3E2FE4F15600ECA59D /* SpotDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,8 +58,10 @@
 			children = (
 				2E27F2742FE0F0D500E0F408 /* SnacktacularUIApp.swift */,
 				2EE50F3C2FE4F03800ECA59D /* Spot.swift */,
+				2E8C05A22FEF7940005802E7 /* Photo.swift */,
 				2E8C05A02FEA39D5005802E7 /* PhotoView.swift */,
 				2E8C059E2FE63F87005802E7 /* SpotViewModel.swift */,
+				2E8C05A42FEF7AFE005802E7 /* PhotoViewModel.swift */,
 				2EE50F3E2FE4F15600ECA59D /* SpotDetailView.swift */,
 				2E27F2732FE0F0D500E0F408 /* LoginView.swift */,
 				2E27F27B2FE0F23100E0F408 /* ListView.swift */,
@@ -161,9 +167,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E8C05A32FEF7940005802E7 /* Photo.swift in Sources */,
 				2EE50F3F2FE4F15600ECA59D /* SpotDetailView.swift in Sources */,
 				2E27F2792FE0F0D500E0F408 /* LoginView.swift in Sources */,
 				2E8C05A12FEA39D5005802E7 /* PhotoView.swift in Sources */,
+				2E8C05A52FEF7AFE005802E7 /* PhotoViewModel.swift in Sources */,
 				2E8C059F2FE63F87005802E7 /* SpotViewModel.swift in Sources */,
 				2E27F27A2FE0F0D500E0F408 /* SnacktacularUIApp.swift in Sources */,
 				2E27F27C2FE0F23100E0F408 /* ListView.swift in Sources */,
