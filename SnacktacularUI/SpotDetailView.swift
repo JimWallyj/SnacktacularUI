@@ -79,7 +79,11 @@ struct SpotDetailView: View {
         }
         .navigationBarBackButtonHidden()
         .task{
-            $fsPhotos.path = "spots/\(spot.id ?? "")/photos"
+            guard let id = spot.id else{
+                print("New record - has no id")
+                return
+            }
+            $fsPhotos.path = "spots/\(id)/photos"
         }
         
         .toolbar{
@@ -106,6 +110,7 @@ struct SpotDetailView: View {
                     }
                     spot.id = id
                     print("spot.id: \(id)")
+                    $fsPhotos.path = "spots/\(id)/photos"  //  Now that we've saved the spot, we have an id, so we can get the photos
                     photoSheetIsPresented.toggle()  //Now open sheet & move to PhotoView
                 }
             }
