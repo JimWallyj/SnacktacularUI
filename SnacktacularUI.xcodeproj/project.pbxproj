@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1444C23000A02100CB8758 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1444C13000A02100CB8758 /* LocationManager.swift */; };
+		2E1444C43000A1AF00CB8758 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1444C33000A1AF00CB8758 /* Place.swift */; };
+		2E1444C63000A1D900CB8758 /* PlaceLookupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1444C53000A1D900CB8758 /* PlaceLookupViewModel.swift */; };
+		2E1444C83000A25000CB8758 /* PlaceLookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1444C73000A25000CB8758 /* PlaceLookupView.swift */; };
 		2E27F2762FE0F0D500E0F408 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E27F2702FE0F0D500E0F408 /* Assets.xcassets */; };
 		2E27F2772FE0F0D500E0F408 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E27F2712FE0F0D500E0F408 /* GoogleService-Info.plist */; };
 		2E27F2792FE0F0D500E0F408 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E27F2732FE0F0D500E0F408 /* LoginView.swift */; };
@@ -24,6 +28,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E1444C13000A02100CB8758 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		2E1444C33000A1AF00CB8758 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		2E1444C53000A1D900CB8758 /* PlaceLookupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLookupViewModel.swift; sourceTree = "<group>"; };
+		2E1444C73000A25000CB8758 /* PlaceLookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceLookupView.swift; sourceTree = "<group>"; };
 		2E27F2702FE0F0D500E0F408 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E27F2712FE0F0D500E0F408 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2E27F2722FE0F0D500E0F408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,12 +67,16 @@
 				2E27F2742FE0F0D500E0F408 /* SnacktacularUIApp.swift */,
 				2EE50F3C2FE4F03800ECA59D /* Spot.swift */,
 				2E8C05A22FEF7940005802E7 /* Photo.swift */,
+				2E1444C33000A1AF00CB8758 /* Place.swift */,
 				2E8C05A02FEA39D5005802E7 /* PhotoView.swift */,
+				2E1444C73000A25000CB8758 /* PlaceLookupView.swift */,
 				2E8C059E2FE63F87005802E7 /* SpotViewModel.swift */,
 				2E8C05A42FEF7AFE005802E7 /* PhotoViewModel.swift */,
+				2E1444C53000A1D900CB8758 /* PlaceLookupViewModel.swift */,
 				2EE50F3E2FE4F15600ECA59D /* SpotDetailView.swift */,
 				2E27F2732FE0F0D500E0F408 /* LoginView.swift */,
 				2E27F27B2FE0F23100E0F408 /* ListView.swift */,
+				2E1444C13000A02100CB8758 /* LocationManager.swift */,
 				2E27F2702FE0F0D500E0F408 /* Assets.xcassets */,
 				2E27F2712FE0F0D500E0F408 /* GoogleService-Info.plist */,
 				2E27F2722FE0F0D500E0F408 /* Info.plist */,
@@ -169,12 +181,16 @@
 			files = (
 				2E8C05A32FEF7940005802E7 /* Photo.swift in Sources */,
 				2EE50F3F2FE4F15600ECA59D /* SpotDetailView.swift in Sources */,
+				2E1444C23000A02100CB8758 /* LocationManager.swift in Sources */,
 				2E27F2792FE0F0D500E0F408 /* LoginView.swift in Sources */,
+				2E1444C63000A1D900CB8758 /* PlaceLookupViewModel.swift in Sources */,
 				2E8C05A12FEA39D5005802E7 /* PhotoView.swift in Sources */,
 				2E8C05A52FEF7AFE005802E7 /* PhotoViewModel.swift in Sources */,
 				2E8C059F2FE63F87005802E7 /* SpotViewModel.swift in Sources */,
 				2E27F27A2FE0F0D500E0F408 /* SnacktacularUIApp.swift in Sources */,
 				2E27F27C2FE0F23100E0F408 /* ListView.swift in Sources */,
+				2E1444C83000A25000CB8758 /* PlaceLookupView.swift in Sources */,
+				2E1444C43000A1AF00CB8758 /* Place.swift in Sources */,
 				2EE50F3D2FE4F03800ECA59D /* Spot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,6 +330,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SnacktacularUI/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires the use of the devise location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -346,6 +363,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SnacktacularUI/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires the use of the devise location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
