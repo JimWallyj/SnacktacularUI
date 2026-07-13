@@ -25,13 +25,11 @@ struct SpotDetailView: View {
         //  Else show Firebase Data
         return fsPhotos
     }
-    
-//    private var mapCameraPosition: MapCameraPosition{
-//        let coordinate = CLLocationCoordinate2D(latitude: $spot.latitude, longitude: $spot.longitude)
-//        return .region(MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000))
-//    }
-    
-    
+    private let mapDimension = 750.0
+    private var mapCameraPosition: MapCameraPosition{
+        let coordinate = CLLocationCoordinate2D(latitude: spot.latitude, longitude: spot.longitude)
+        return .region(MKCoordinateRegion(center: coordinate, latitudinalMeters: mapDimension, longitudinalMeters: mapDimension))
+    }
     
     var body: some View {
         VStack{
@@ -52,10 +50,12 @@ struct SpotDetailView: View {
             .padding(.horizontal)
             
             Text("Lat: \(spot.latitude), Long: \(spot.longitude)")
-
-//            Map(position: .constant(MapCameraPosition)) {
-//                Marker(spot.name, coordinate: CLLocationCoordinate2D(latitude: spot.lat, longitude: <#T##CLLocationDegrees#>))
-//            }
+            
+            Map(position: .constant(mapCameraPosition)) {
+                Marker(spot.name, coordinate: CLLocationCoordinate2D(latitude: spot.latitude, longitude: spot.longitude))
+            }
+            .tint(.snack)
+            .frame(height: 200)
             
             Button {  //  Photo Button
                 if spot.id == nil{  //  Ask if you want to save

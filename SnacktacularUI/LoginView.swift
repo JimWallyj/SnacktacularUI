@@ -3,7 +3,7 @@
 //  SnacktacularUI
 //
 //  Created by JIM WALEJKO on 6/8/26.
-//
+//  JimW@me.com login; Awesome1 password
 
 import SwiftUI
 import Firebase
