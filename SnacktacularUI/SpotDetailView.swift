@@ -53,9 +53,16 @@ struct SpotDetailView: View {
             
             Map(position: .constant(mapCameraPosition)) {
                 Marker(spot.name, coordinate: CLLocationCoordinate2D(latitude: spot.latitude, longitude: spot.longitude))
+                    .tint(.snack)
+                
+                UserAnnotation()
             }
-            .tint(.snack)
-            .frame(height: 200)
+            .mapControls{
+                MapUserLocationButton()
+                MapCompass()
+            }
+            .mapStyle(.standard(pointsOfInterest: .all))
+            .frame(height: 250)
             
             Button {  //  Photo Button
                 if spot.id == nil{  //  Ask if you want to save
