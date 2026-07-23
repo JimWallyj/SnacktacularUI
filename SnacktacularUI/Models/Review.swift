@@ -15,7 +15,7 @@ struct Review: Identifiable, Codable{
     var title = ""
     var body = ""
     var rating = 0
-    var reviewer = Auth.auth().currentUser?.email ??    ""
+    var reviewer = Auth.auth().currentUser?.email ?? ""
     var postedOn = Date()
     
    var dictionary: [String: Any] {
