@@ -26,7 +26,7 @@ var address: String {
     let placemark = self.mapItem.placemark
     var cityAndState = ""
     var address = ""
-}
+
 
 cityAndState = placemark.locality ?? ""  //city
 if let state = placemark.administrativeArea {
@@ -40,7 +40,7 @@ if let street = placemark.thoroughfare {
     address = address.isEmpty ? street : "\(address) \(street)"
 }
 
-if address.trimmingCharacters(in: .whitespaces).isEmpty && !addressCityAndState.isEmpty{
+if address.trimmingCharacters(in: .whitespaces).isEmpty && !cityAndState.isEmpty{
     //  No address? Then just cityAndState with no space
     address = addressCityAndState
 } else{
