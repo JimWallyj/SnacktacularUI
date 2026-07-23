@@ -10,12 +10,14 @@ import FirebaseFirestore
 import UIKit
 import FirebaseStorage
 
+
 @MainActor
 
 class SpotViewModel: ObservableObject{
+    @Published var spot = Spot()
     
-    static func saveSpot(spot: Spot) async -> String? {  //  nil if effort failed, otherwise return spot.id
-        let db = Firestore.firestore()
+    func saveSpot(spot: Spot) async -> Bool {  //  nil if effort failed, otherwise return spot.id
+        let db = Firestore.firestore()  //  ignore any error that shows up here.  Wait for indexing.  Clean build if it persists with shift+command+K. Error usually goes away with build + run. Otherwise try restarting Mac/Xcode and deleting derived data. For instructions on derived data deletion, see: https://deriveddata.dance
         
         if let id = spot.id {  //  if true the spot exits
             do{
