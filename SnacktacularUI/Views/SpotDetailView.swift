@@ -11,7 +11,28 @@ import FirebaseFirestore
 import MapKit
 
 struct SpotDetailView: View {
+    //new:
+//    struct Annotation: Identifiable{
+//        let id = UUID().uuidString
+//        var name: String
+//        var address: String
+//        var coordinate: CLLocationCoordinate2D
+//    }
+    
+    //new:
+//    @Environment var spotVM: SpotViewModel
+//    @Environment var locationManager: LocationManager
+//    @State private var showPlaceLookupSheet = false
+//    @State private var mapRegion = MKCoordinateRegion()
+//    @State private var annotations: [Annotation] = []
+//    let regionSize = 500.0  //  meters
+    
+    
     @FirestoreQuery(collectionPath: "spots") var fsPhotos: [Photo]
+    //new:
+    //  The variable below doesn't have the right path.  We'll change this in .onAppear
+    @FirestoreQuery(collectionPath: "spots") var reviews: [Review]
+    
     @State var spot: Spot  //  pass in value from ListView
     @State private var photoSheetIsPresented = false
     @State private var showingAlert = false  //  Alert user if they need to save Spot before adding a Photo
@@ -34,22 +55,41 @@ struct SpotDetailView: View {
     var body: some View {
         VStack{
             Group{
-                TextField("name", text: $spot.name)
+                TextField("Name", text: $spot.name)
                     .font(.title2)
                     .autocorrectionDisabled()
                 
-                TextField("address", text: $spot.address)
+                TextField("Address", text: $spot.address)
                     .font(.title2)
                     .autocorrectionDisabled()
             }
+            //new:
+            //.disabled(spot.id == nil ? false : true)
+            
             .textFieldStyle(.roundedBorder)
             .overlay{
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(.gray.opacity(0.5), lineWidth: 2)
+                //        .stroke(.gray.opacity(0.5), lineWidth: 2)
+                    .stroke(.gray.opacity(0.5), lineWidth: spot.id == nil ? 2 : 0)
+                
             }
             .padding(.horizontal)
             
-            Text("Lat: \(spot.latitude), Long: \(spot.longitude)")
+            //Text("Lat: \(spot.latitude), Long: \(spot.longitude)")
+            //new:
+//            Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: annotations) { annotation in
+//                MapMarker(coordinate: annotation.coordinate)
+//            }
+//            .frame(height: 250)
+//            .onChange(of: spot) { _ in
+//                annotations = [Annotation(name: spot.name, address: spot.address, coordinate: spot.coordinate)]
+//                mapRegion.center = spot.coordinate
+//            }
+            
+            Spacer()
+        
+           //new:
+                
             
             Map(position: .constant(mapCameraPosition)) {
                 Marker(spot.name, coordinate: CLLocationCoordinate2D(latitude: spot.latitude, longitude: spot.longitude))

@@ -2,11 +2,12 @@
 //  Spot.swift
 //  SnacktacularUI
 //
-//  Created by JIM WALEJKO on 6/18/26.
+//  Created by JIM WALEJKO on 7/21/26.
 //
 
 import Foundation
 import FirebaseFirestore
+import CoreLocation
 //import MapKit
 //import Contacts
 
@@ -16,11 +17,11 @@ struct Spot: Identifiable, Codable{
     var address = ""
     var latitude = 0.0
     var longitude = 0.0
-}
-
-extension Spot{
-    static var preview: Spot{
-        let newSpot = Spot(id: "1", name: "Boston Public Market", address: "Boston, MA", latitude: 42.3601, longitude: -71.0589)
-        return newSpot
+    var coordinate: CLLocationCoordinate2D{
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    var dictionary: [String: Any] {
+        return["name": name, "address": addresss, "latitude": latitude, "longitude": longitude]
     }
 }
