@@ -11,7 +11,7 @@ import CoreLocation
 //import MapKit
 //import Contacts
 
-struct Spot: Identifiable, Codable{
+struct Spot: Identifiable, Codable, Equatable{
     @DocumentID var id: String?
     var name = ""
     var address = ""
