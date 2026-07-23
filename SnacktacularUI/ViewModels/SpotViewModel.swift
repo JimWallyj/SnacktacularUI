@@ -7,9 +7,12 @@
 
 import Foundation
 import FirebaseFirestore
+import UIKit
+import FirebaseStorage
 
-@Observable
-class SpotViewModel{
+@MainActor
+
+class SpotViewModel: ObservableObject{
     
     static func saveSpot(spot: Spot) async -> String? {  //  nil if effort failed, otherwise return spot.id
         let db = Firestore.firestore()
