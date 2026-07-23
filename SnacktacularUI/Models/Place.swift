@@ -42,7 +42,7 @@ if let street = placemark.thoroughfare {
 
 if address.trimmingCharacters(in: .whitespaces).isEmpty && !cityAndState.isEmpty{
     //  No address? Then just cityAndState with no space
-    address = addressCityAndState
+    address = cityAndState
 } else{
     //  No cityAndState? Then just address, otherwise address, cityAndState
     address = cityAndState.isEmpty ? address : "\(address), \(cityAndState)"
