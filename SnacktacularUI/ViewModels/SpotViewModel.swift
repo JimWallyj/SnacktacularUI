@@ -19,38 +19,27 @@ class SpotViewModel: ObservableObject{
     func saveSpot(spot: Spot) async -> Bool {  //  nil if effort failed, otherwise return spot.id
         let db = Firestore.firestore()  //  ignore any error that shows up here.  Wait for indexing.  Clean build if it persists with shift+command+K. Error usually goes away with build + run. Otherwise try restarting Mac/Xcode and deleting derived data. For instructions on derived data deletion, see: https://deriveddata.dance
         
-        if let id = spot.id {  //  if true the spot exits
+        if let id = spot.id {  //  if true the spot exits, so save
             do{
-                try db.collection("spots").document(id).setData(from: spot)
+                try await db.collection("spots").document(id).setData(spot.dictionary)
                 print("😎 Data updated successfully!")
-                return id
+                return true
             } catch {
-                print("😡 Could not update data in 'spots' \(error.localizedDescription)")
-                return id
+                print("😡 ERROR: Could not update data in 'spots' \(error.localizedDescription)")
+                return false
             }
         }else {  //  We need to add a new spot & create a new id / document name
             do{
-                let docRef = try db.collection("spots").addDocument(from: spot)
+                let documentRef = try await db.collection("spots").addDocument(data: spot.dictionary)
+                self.spot = spot
+                self.spot.id = documentRef.documentID
                 print("🐣 Data added successfully!")
-                return docRef.documentID
+                return true
             } catch{
-                print(" Could not create a new spot in '[spots' \(error.localizedDescription)")
-                return nil
+                print("😡 ERROR: Could not create a new spot in 'spots' \(error.localizedDescription)")
+                return false
             }
         }
     }
-    static func deleteSpot(spot: Spot){
-        let db = Firestore.firestore()
-        guard let id = spot.id else{
-            print("No spot.id")
-            return
-        }
-        Task{
-            do{
-                try await db.collection("spots").document(id).delete()
-            }catch{
-                print("😡 ERROR Could not delete document \(id).  \(error.localizedDescription)")
-            }
-        }
-    }
+   
 }
