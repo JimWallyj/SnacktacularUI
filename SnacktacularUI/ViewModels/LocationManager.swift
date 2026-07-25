@@ -9,24 +9,24 @@ import Foundation
 import MapKit
 import SwiftUI
 
-@Observable
+@MainActor
 
-class LocationManager: NSObject, CLLocationManagerDelegate{
+class LocationManager: NSObject, ObservableObject{
     //  *** CRITICALLY IMPORTANT *** Always add info.plist message for Privacy - Location When in Use Usage Description
+    @Published var location: CLLocation?
+@Published var region = MKCoordinateRegion()
     
-    var location: CLLocation?
-    var placemark: CLPlacemark?
-    private let locationManager = CLLocationManager()
-    var authorizationStatus: CLAuthorizationStatus = .notDetermined
-    var errorMessage: String?
-    var locationUpdated: ((CLLocation) -> Void)?  //  This is a function that can be called, passing in a location
+
+    
     
     override init(){
         super.init()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+        locationManager.delegate = self
+    }
     }
     
     //  Get a region around current location with specified radius in meters
