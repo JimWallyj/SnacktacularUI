@@ -26,7 +26,6 @@ private let locationManager = CLLocationManager()
         locationManager.startUpdatingLocation()  //  Remember to update Info.plist!
         locationManager.delegate = self
     }
-    }
     
     
 }
@@ -38,8 +37,5 @@ extension LocationManager: CLLocationManagerDelegate{
         self.location = location
         self.region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
     }
-    
-   
-}
 
 
