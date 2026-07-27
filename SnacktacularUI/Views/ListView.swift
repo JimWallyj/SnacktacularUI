@@ -68,7 +68,7 @@ struct ListView: View {
 //                        }
 //                    }
 //            }
-            .sheet(isPresented: $spotDetailIsPresented) {
+            .sheet(isPresented: $sheetIsPresented) {
                 NavigationStack{
                     SpotDetailView(spot: Spot())
                 }
