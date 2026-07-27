@@ -9,192 +9,277 @@ import SwiftUI
 import Firebase
 import FirebaseFirestore
 import MapKit
+import PhotosUI
 
 struct SpotDetailView: View {
-    //new:
-//    struct Annotation: Identifiable{
-//        let id = UUID().uuidString
-//        var name: String
-//        var address: String
-//        var coordinate: CLLocationCoordinate2D
-//    }
+    enum ButtonPressed{
+        case review, photo
+    }
     
-    //new:
-//    @Environment var spotVM: SpotViewModel
-//    @Environment var locationManager: LocationManager
-//    @State private var showPlaceLookupSheet = false
-//    @State private var mapRegion = MKCoordinateRegion()
-//    @State private var annotations: [Annotation] = []
-//    let regionSize = 500.0  //  meters
+    struct Annotation: Identifiable{
+        let id = UUID().uuidString
+        var name: String
+        var address: String
+        var coordinate: CLLocationCoordinate2D
+    }
     
     
-    @FirestoreQuery(collectionPath: "spots") var fsPhotos: [Photo]
-    //new:
-    //  The variable below doesn't have the right path.  We'll change this in .onAppear
+    @Environment var spotVM: SpotViewModel
+    @Environment var locationManager: LocationManager
+    //  The variable below does not have the right path. We'll change this in .onAppear
     @FirestoreQuery(collectionPath: "spots") var reviews: [Review]
+    @FirestoreQuery(collectionPath: "spots") var fsPhotos: [Photo]
     
     @State var spot: Spot  //  pass in value from ListView
-    @State private var photoSheetIsPresented = false
-    @State private var showingAlert = false  //  Alert user if they need to save Spot before adding a Photo
-    @State private var alertMessage = "Cannot add a Photo until you save the Spot."
-    @Environment(\.dismiss) private var dismiss
-    private var photos: [Photo] {
-        //  If running in Preview then show mock data
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-            return [Photo.preview, Photo.preview, Photo.preview, Photo.preview, Photo.preview, Photo.preview]
+    
+    
+    
+    //    @State private var showPlaceLookupSheet = false
+    //    @State private var mapRegion = MKCoordinateRegion()
+    //    @State private var annotations: [Annotation] = []
+    //    let regionSize = 500.0  //  meters
+    
+    
+    @State var newPhoto = Photo()
+    @State private var showPlaceLookupSheet = false
+    @State private var showReviewViewSheet = false
+    @State private var showPhotoViewSheet = false
+    @State private var showSaveAlert = false
+    @State private var showingAsSheet = false
+    @State private var buttonPressed = ButtonPressed.review
+    @State private var uiImageSelected = UIImage()
+    @State private var mapRegion = MKCoordinateRegion()
+    @State private var annotations: [Annotation] = []
+    @State private var selectedPhoto: PhotosPickerItem?
+    var avgRating: String {
+        guard reviews.count != 0 else {
+            return "-.-"
         }
-        //  Else show Firebase Data
-        return fsPhotos
-    }
-    private let mapDimension = 750.0
-    private var mapCameraPosition: MapCameraPosition{
-        let coordinate = CLLocationCoordinate2D(latitude: spot.latitude, longitude: spot.longitude)
-        return .region(MKCoordinateRegion(center: coordinate, latitudinalMeters: mapDimension, longitudinalMeters: mapDimension))
+        let averageValue = Double(reviews.reduce(0) {$0 + $1.rating}) / Double(reviews.count)
+        return String(format: "%.1f", averageValue)
     }
     
+    
+    @Environment(\.dismiss) private var dismiss
+    let regionSize = 500.0 // meters
+    var previewRunning = false
+    
+    
+    
     var body: some View {
-        VStack{
-            Group{
+        VStack {
+            Group {
                 TextField("Name", text: $spot.name)
-                    .font(.title2)
-                    .autocorrectionDisabled()
-                
+                    .font(.title)
+                    .lineLimit(1)
                 TextField("Address", text: $spot.address)
                     .font(.title2)
-                    .autocorrectionDisabled()
             }
-            //new:
-            //.disabled(spot.id == nil ? false : true)
-            
+            .disabled(spot.id == nil ? false : true)
             .textFieldStyle(.roundedBorder)
-            .overlay{
+            .overlay {
                 RoundedRectangle(cornerRadius: 5)
-                //        .stroke(.gray.opacity(0.5), lineWidth: 2)
                     .stroke(.gray.opacity(0.5), lineWidth: spot.id == nil ? 2 : 0)
-                
             }
             .padding(.horizontal)
             
-            //Text("Lat: \(spot.latitude), Long: \(spot.longitude)")
-            //new:
-//            Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: annotations) { annotation in
-//                MapMarker(coordinate: annotation.coordinate)
-//            }
-//            .frame(height: 250)
-//            .onChange(of: spot) { _ in
-//                annotations = [Annotation(name: spot.name, address: spot.address, coordinate: spot.coordinate)]
-//                mapRegion.center = spot.coordinate
-//            }
+            Map(coordinateRegion: $mapRegion, showsUserLocation: true, annotationItems: annotations) { annotation in
+                MapMarker(coordinate: annotation.coordinate)
+            }
+            .frame(height: 250)
+            .onChange(of: spot) { _ in
+                annotations = [Annotation(name: spot.name, address: spot.address, coordinate: spot.coordinate)]
+                mapRegion.center = spot.coordinate
+            }
+            
+            SpotDetailPhotosScrollView(photos: photos, spot: spot)
+            
+            HStack {
+                Group {
+                    Text("Avg. Rating")
+                        .font(.title2)
+                        .bold()
+                    Text(avgRating)
+                        .font(.title)
+                        .fontWeight(.black)
+                        .foregroundColor(Color("SnackColor"))
+                }
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                
+                Spacer()
+                
+                Group {
+                    PhotosPicker(selection: $selectedPhoto, matching: .images, preferredItemEncoding: .automatic) {
+                        Image(systemName: "photo")
+                        Text("Photo")
+                    }
+                    .onChange(of: selectedPhoto) { newValue in
+                        Task {
+                            do {
+                                if let data = try await newValue?.loadTransferable(type: Data.self) {
+                                    if let uiImage = UIImage(data: data) {
+                                        uiImageSelected = uiImage
+                                        print("📸 Successfully selected image!")
+                                        newPhoto = Photo() // clears out contents if you add more than 1 photo in a row for this spot
+                                        buttonPressed = .photo
+                                        if spot.id == nil {
+                                            showSaveAlert.toggle()
+                                        } else {
+                                            showPhotoViewSheet.toggle()
+                                        }
+                                    }
+                                }
+                            } catch {
+                                print("😡 ERROR: selecting image failed \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                    
+                    Button(action: {
+                        buttonPressed = .review
+                        if spot.id == nil {
+                            showSaveAlert.toggle()
+                        } else {
+                            showReviewViewSheet.toggle()
+                        }
+                    }, label: {
+                        Image(systemName: "star.fill")
+                        Text("Rate")
+                    })
+                }
+                .font(Font.caption)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .buttonStyle(.borderedProminent)
+                .tint(Color("SnackColor"))
+            }
+            .padding(.horizontal)
+            
+            List {
+                Section {
+                    ForEach(reviews) { review in
+                        NavigationLink {
+                            ReviewView(spot: spot, review: review)
+                        } label: {
+                            SpotReviewRowView(review: review)
+                        }
+                    }
+                }
+                .headerProminence(.increased)
+            }
+            .listStyle(.plain)
             
             Spacer()
-        
-           //new:
+        }
+        .onAppear {
+            if !previewRunning && spot.id != nil { // This is to prevent PreviewProvider error
+                $reviews.path = "spots/\(spot.id ?? "")/reviews"
+                print("reviews.path = \($reviews.path)")
                 
-            
-            Map(position: .constant(mapCameraPosition)) {
-                Marker(spot.name, coordinate: CLLocationCoordinate2D(latitude: spot.latitude, longitude: spot.longitude))
-                    .tint(.snack)
-                
-                UserAnnotation()
+                $photos.path = "spots/\(spot.id ?? "")/photos"
+                print("photos.path = \($photos.path)")
+            } else { // spot.id starts out as nil
+                showingAsSheet = true
             }
-            .mapControls{
-                MapUserLocationButton()
-                MapCompass()
-            }
-            .mapStyle(.standard(pointsOfInterest: .all))
-            .frame(height: 250)
             
-            Button {  //  Photo Button
-                if spot.id == nil{  //  Ask if you want to save
-                    showingAlert.toggle()
-                }else{  //  Go right to PhotoView
-                    photoSheetIsPresented.toggle()
+            if spot.id != nil { // If we have a spot, center map on the spot
+                mapRegion = MKCoordinateRegion(center: spot.coordinate, latitudinalMeters: regionSize, longitudinalMeters: regionSize)
+            } else { // otherwise center the map on the device location
+                Task { // If you don't embed in a Task, the map update likely won't show
+                    mapRegion = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(), latitudinalMeters: regionSize, longitudinalMeters: regionSize)
                 }
-            } label: {
-                Image(systemName: "camera.fill")
-                Text("Photo")
             }
-            .bold()
-            .buttonStyle(.borderedProminent)
-            .tint(.snack)
-            
-            ScrollView(.horizontal){
-                HStack{
-                    ForEach(photos) { photo in
-                        let url = URL(string: photo.imageURLString)
-                        AsyncImage(url: url) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
-                                .clipped()
-                        } placeholder: {
-                            ProgressView()
+            annotations = [Annotation(name: spot.name, address: spot.address, coordinate: spot.coordinate)]
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(spot.id == nil)
+        .toolbar {
+            if showingAsSheet { // New spot, so show Cancel / Save buttons
+                if spot.id == nil && showingAsSheet { // New spot, so show Cancel/Save buttons
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Save") {
+                            Task {
+                                let success = await spotVM.saveSpot(spot: spot)
+                                if success {
+                                    dismiss()
+                                } else {
+                                    print("😡 DANG! Error saving spot!")
+                                }
+                            }
+                            dismiss()
+                        }
+                    }
+                    ToolbarItemGroup(placement: .bottomBar) {
+                        Spacer()
+                        Button {
+                            showPlaceLookupSheet.toggle()
+                        } label: {
+                            Image(systemName: "magnifyingglass")
+                            Text("Lookup Place")
+                        }
+                        
+                    }
+                } else if showingAsSheet && spot.id != nil {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Done") {
+                            dismiss()
                         }
                     }
                 }
             }
-            .frame(height: 80)
-            
-            Spacer()
         }
-        .navigationBarBackButtonHidden()
-        .task{
-            guard let id = spot.id else{
-                print("New record - has no id")
-                return
-            }
-            $fsPhotos.path = "spots/\(id)/photos"
+        .sheet(isPresented: $showPlaceLookupSheet) {
+            PlaceLookupView(spot: $spot)
         }
-        
-        .toolbar{
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Cancel"){
-                    dismiss()
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Save"){
-                    saveSpot()
-                    dismiss()
-                }
+        .sheet(isPresented: $showReviewViewSheet) {
+            NavigationStack {
+                ReviewView(spot: spot, review: Review())
             }
         }
-        .alert(alertMessage, isPresented: $showingAlert) {
+        .sheet(isPresented: $showPhotoViewSheet) {
+            NavigationStack {
+                PhotoView(photo: $newPhoto, uiImage: uiImageSelected, spot: spot)
+            }
+        }
+        .alert("Cannot Rate Place Unless It is Saved", isPresented: $showSaveAlert) {
             Button("Cancel", role: .cancel) {}
-            Button("Save"){
-                //  We want to return spot.id after saving a new Spot. Right now it is nil
-                Task{
-                    guard let id = await SpotViewModel.saveSpot(spot: spot) else{
-                        print("😡 ERROR: Saving spot in alert returned nil")
-                        return
+            Button("Save", role: .none) {
+                Task {
+                    let success = await spotVM.saveSpot(spot: spot)
+                    spot = spotVM.spot
+                    if success {
+                        // If we didn't update the path after saving spot, we wouldn't be able to show new reviews added
+                        $reviews.path = "spots/\(spot.id ?? "")/reviews"
+                        $photos.path = "spots/\(spot.id ?? "")/photos"
+                        switch buttonPressed {
+                        case .review:
+                            showReviewViewSheet.toggle()
+                        case .photo:
+                            showPhotoViewSheet.toggle()
+                        }
+                    } else {
+                        print("😡 Dang! Error saving spot!")
                     }
-                    spot.id = id
-                    print("spot.id: \(id)")
-                    $fsPhotos.path = "spots/\(id)/photos"  //  Now that we've saved the spot, we have an id, so we can get the photos
-                    photoSheetIsPresented.toggle()  //Now open sheet & move to PhotoView
                 }
             }
-        }
-        .fullScreenCover(isPresented: $photoSheetIsPresented){
-            PhotoView(spot: spot)
-        }
-    } //body
-    
-    func saveSpot(){
-        Task{
-            guard let id = await SpotViewModel.saveSpot(spot: spot) else{
-                print("😡 ERROR: Saving spot from Save button")
-                return
-            }
-            print("spot.id: \(id)")
-            print("😎 Nice Spot save!")
+        } message: {
+            Text("Would you like to save this alert first so that you can enter a review?")
         }
     }
 }
 
-#Preview {
-    NavigationStack{
-        SpotDetailView(spot: Spot.preview)
+struct SpotDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            SpotDetailView(spot: Spot(), previewRunning: true)
+                .environmentObject(SpotViewModel())
+                .environmentObject(LocationManager())
+        }
     }
 }
