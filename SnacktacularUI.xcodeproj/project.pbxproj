@@ -18,6 +18,7 @@
 		2E27F27C2FE0F23100E0F408 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E27F27B2FE0F23100E0F408 /* ListView.swift */; };
 		2E2A1EC13015B6BD00134ACA /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A1EC03015B6BD00134ACA /* PlaceViewModel.swift */; };
 		2E2A1EC33015B76100134ACA /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A1EC23015B76100134ACA /* ReviewViewModel.swift */; };
+		2E2A1EC530170EDC00134ACA /* SpotDetailPhotosScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A1EC430170EDC00134ACA /* SpotDetailPhotosScrollView.swift */; };
 		2E38A8982FD7524C00C27FAA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2E38A8972FD7524C00C27FAA /* FirebaseAuth */; };
 		2E38A89A2FD7524C00C27FAA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2E38A8992FD7524C00C27FAA /* FirebaseFirestore */; };
 		2E38A89C2FD7524C00C27FAA /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2E38A89B2FD7524C00C27FAA /* FirebaseStorage */; };
@@ -43,6 +44,7 @@
 		2E27F27B2FE0F23100E0F408 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		2E2A1EC03015B6BD00134ACA /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
 		2E2A1EC23015B76100134ACA /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
+		2E2A1EC430170EDC00134ACA /* SpotDetailPhotosScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotDetailPhotosScrollView.swift; sourceTree = "<group>"; };
 		2E38A8862FD7507400C27FAA /* SnacktacularUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnacktacularUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C059E2FE63F87005802E7 /* SpotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotViewModel.swift; sourceTree = "<group>"; };
 		2E8C05A22FEF7940005802E7 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				2E1444C73000A25000CB8758 /* PlaceLookupView.swift */,
 				2E8E83B13010637300BE8371 /* PhotoView.swift */,
 				2E8E83AB3007431F00BE8371 /* ReviewView.swift */,
+				2E2A1EC430170EDC00134ACA /* SpotDetailPhotosScrollView.swift */,
 				2E8E83AD30088C8800BE8371 /* StarsSelectionView.swift */,
 			);
 			path = Views;
@@ -223,6 +226,7 @@
 				2E1444CD3004985900CB8758 /* Review.swift in Sources */,
 				2E8E83B0301061AC00BE8371 /* Spot.swift in Sources */,
 				2E8E83AC3007431F00BE8371 /* ReviewView.swift in Sources */,
+				2E2A1EC530170EDC00134ACA /* SpotDetailPhotosScrollView.swift in Sources */,
 				2E27F27C2FE0F23100E0F408 /* ListView.swift in Sources */,
 				2E1444C83000A25000CB8758 /* PlaceLookupView.swift in Sources */,
 				2E1444C43000A1AF00CB8758 /* Place.swift in Sources */,
