@@ -14,12 +14,8 @@ internal import Combine
 @MainActor
 
 
-
-
-
-
-
 class SpotViewModel: ObservableObject{
+    @Published var spot = Spot()
    // var objectWillChange: ObservableObjectPublisher
     
     
@@ -77,7 +73,7 @@ class SpotViewModel: ObservableObject{
             let imageURL = try await storageRef.downloadURL()
             imageURLString = "\(imageURL)"  //  We'll save this to Cloud Firestore as part of document in 'photos' collection, below
         } catch{
-            print("😡 ERROR: Could not get imageURL after saving image \(error.localiizedDescription)")
+            print("😡 ERROR: Could not get imageURL after saving image \(error.localizedDescription)")
             return false
         }
     }catch{

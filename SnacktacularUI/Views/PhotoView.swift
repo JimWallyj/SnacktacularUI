@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 struct PhotoView: View {
     @EnvironmentObject var spotVM: SpotViewModel

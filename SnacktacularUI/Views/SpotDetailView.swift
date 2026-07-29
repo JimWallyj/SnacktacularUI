@@ -28,7 +28,7 @@ struct SpotDetailView: View {
     @Environment var locationManager: LocationManager
     //  The variable below does not have the right path. We'll change this in .onAppear
     @FirestoreQuery(collectionPath: "spots") var reviews: [Review]
-    @FirestoreQuery(collectionPath: "spots") var fsPhotos: [Photo]
+    @FirestoreQuery(collectionPath: "spots") var photos: [Photo]
     
     @State var spot: Spot  //  pass in value from ListView
     
@@ -176,6 +176,7 @@ struct SpotDetailView: View {
             if !previewRunning && spot.id != nil { // This is to prevent PreviewProvider error
                 $reviews.path = "spots/\(spot.id ?? "")/reviews"
                 print("reviews.path = \($reviews.path)")
+                
                 
                 $photos.path = "spots/\(spot.id ?? "")/photos"
                 print("photos.path = \($photos.path)")

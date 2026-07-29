@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+internal import Combine
 
 class ReviewViewModel: ObservableObject {
     @Published var review = Review()
