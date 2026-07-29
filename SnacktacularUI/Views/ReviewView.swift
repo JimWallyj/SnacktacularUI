@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 struct ReviewView: View {
     @StateObject var reviewVM = ReviewViewModel()

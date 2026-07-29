@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
-import Firebase
+//import Firebase
 import FirebaseFirestore
 import MapKit
 import PhotosUI
+
 
 struct SpotDetailView: View {
     enum ButtonPressed{
