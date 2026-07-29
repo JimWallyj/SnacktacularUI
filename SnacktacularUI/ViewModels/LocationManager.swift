@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 import SwiftUI
+internal import Combine
 
 @MainActor
 
