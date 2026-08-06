@@ -31,10 +31,10 @@ var address: String {
 cityAndState = placemark.locality ?? ""  //city
 if let state = placemark.administrativeArea {
     //  show either state or city, state
-    cityAndState = cityAndState.isEmpty ? state : "\cityAndState), \(state)"
+    cityAndState = cityAndState.isEmpty ? state : "\(cityAndState), \(state)"
 }
 
-address = placement.subThoroughfare ?? "" //  address #
+address = placemark.subThoroughfare ?? "" //  address #
 if let street = placemark.thoroughfare {
     //  Just show the street unless there is a street # then add space + street
     address = address.isEmpty ? street : "\(address) \(street)"
