@@ -22,6 +22,6 @@ struct Spot: Identifiable, Codable, Equatable{
     }
     
     var dictionary: [String: Any] {
-        return["name": name, "address": addresss, "latitude": latitude, "longitude": longitude]
+        return["name": name, "address": address, "latitude": latitude, "longitude": longitude]
     }
 }
