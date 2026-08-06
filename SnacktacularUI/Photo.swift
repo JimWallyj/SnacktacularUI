@@ -11,7 +11,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 
-class Photo: Identifiable, Codable {
+struct Photo: Identifiable, Codable {
     @DocumentID var id: String?
     var imageURLString = ""  //  This will hold the URL for loading the image
     var description = ""
