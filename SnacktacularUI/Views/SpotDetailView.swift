@@ -25,8 +25,8 @@ struct SpotDetailView: View {
     }
     
     
-    @Environment var spotVM: SpotViewModel
-    @Environment var locationManager: LocationManager
+    @EnvironmentObject var spotVM: SpotViewModel
+    @EnvironmentObject var locationManager: LocationManager
     //  The variable below does not have the right path. We'll change this in .onAppear
     @FirestoreQuery(collectionPath: "spots") var reviews: [Review]
     @FirestoreQuery(collectionPath: "spots") var photos: [Photo]
