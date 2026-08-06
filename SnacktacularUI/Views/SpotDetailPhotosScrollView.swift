@@ -58,6 +58,6 @@ struct SpotDetailPhotosScrollView: View {
 
 struct SpotDetailPhotosScrollView_Previews: PreviewProvider {
     static var previews: some View {
-        SpotDetailPhotosScrollView(photos: [Photo(imageURLString: "https://firebasestorage.googleapis.com:443/v0/b/snacktacularui.appspot.com/o/9BZzOrPTQhwoR2V8i09Y%2FB59BDF50-A3A9-441E-BDD9-DBB77017F5D6.jpeg?alt=media&token=b2cda875-b509-4fa9-9889-57ba81412561")], spot: Spot(id: "9BZzOrPTQhwoR2V8i09Y"))
+        SpotDetailPhotosScrollView(photos: [Photo(imageURLString:"https://firebasestorage.googleapis.com:443/v0/b/snacktacularui.appspot.com/o/9BZzOrPTQhwoR2V8i09Y%2FB59BDF50-A3A9-441E-BDD9-DBB77017F5D6.jpeg?alt=media&token=b2cda875-b509-4fa9-9889-57ba81412561")], spot: Spot(id: "9BZzOrPTQhwoR2V8i09Y"))
     }
 }
